@@ -1,11 +1,27 @@
-import { Link, Form } from 'react-router-dom'
+import { Link, Form, useActionData } from 'react-router-dom'
 
+//El comentario de abajo quita el error de que no puedo exportar la función action, ya que no es un componente de React
 // eslint-disable-next-line react-refresh/only-export-components
-export async function action() {
-    console.log('Desde la acción')
+export async function action({request}) {
+    const data  = Object.fromEntries(await request.formData())
+
+    let error = ''
+    if(Object.values(data).includes('')) {
+        error = 'Todos los campos son obligatorios'
+    }
+    if(error.length) {
+        return error
+    }
+
+    return { }
 }
 
 export default function NewProduct() {
+
+    const error = useActionData()
+
+    console.log(error)
+
   return (
     <>
         <div className="flex justify-between ">
