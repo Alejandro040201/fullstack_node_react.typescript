@@ -1,8 +1,10 @@
-import { Link, Form, useActionData } from 'react-router-dom'
+import { Link, Form, useActionData, type ActionFunctionArgs } from 'react-router-dom'
+import ErrorMessage from '../components/ErrorMessage'
+import { addProduct } from '../services/ProductService'
 
 //El comentario de abajo quita el error de que no puedo exportar la función action, ya que no es un componente de React
 // eslint-disable-next-line react-refresh/only-export-components
-export async function action({request}) {
+export async function action({request} : ActionFunctionArgs) {
     const data  = Object.fromEntries(await request.formData())
 
     let error = ''
@@ -13,14 +15,13 @@ export async function action({request}) {
         return error
     }
 
-    return { }
+    addProduct(data)
+
+    return {}
 }
 
 export default function NewProduct() {
-
-    const error = useActionData()
-
-    console.log(error)
+    const error = useActionData() as string
 
   return (
     <>
@@ -33,6 +34,8 @@ export default function NewProduct() {
                 Volver a Productos
             </Link>
         </div>
+
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <Form
             className="mt-10"  
