@@ -1,6 +1,13 @@
-import { Link, Form, useActionData, type ActionFunctionArgs, redirect, useLocation } from 'react-router-dom'
+import { Link, Form, useActionData, type ActionFunctionArgs, redirect, type LoaderFunctionArgs } from 'react-router-dom'
+//import { useLocation } from 'react-router-dom'
 import ErrorMessage from '../components/ErrorMessage'
 import { addProduct } from '../services/ProductService'
+
+//El comentario de abajo quita el error de que no puedo exportar la función action, ya que no es un componente de React
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({params} : LoaderFunctionArgs) {
+    console.log(params.id)
+}
 
 //El comentario de abajo quita el error de que no puedo exportar la función action, ya que no es un componente de React
 // eslint-disable-next-line react-refresh/only-export-components
@@ -22,9 +29,8 @@ export async function action({request} : ActionFunctionArgs) {
 
 export default function EditProduct() {
     const error = useActionData() as string
-    const {state} = useLocation()
-
-    console.log(state)
+    // const {state} = useLocation()
+    // console.log(state)
 
   return (
     <>
@@ -56,7 +62,7 @@ export default function EditProduct() {
                     className="mt-2 block w-full p-3 bg-gray-50"
                     placeholder="Nombre del Producto"
                     name="name"
-                    defaultValue={state.product.name}
+                    //defaultValue={state.product.name}
                 />
             </div>
             <div className="mb-4">
@@ -70,7 +76,7 @@ export default function EditProduct() {
                     className="mt-2 block w-full p-3 bg-gray-50"
                     placeholder="Precio Producto. ej. 200, 300"
                     name="price"
-                    defaultValue={state.product.price}
+                    //defaultValue={state.product.price}
                 />
             </div>
             <input
