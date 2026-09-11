@@ -1,6 +1,7 @@
 import express from 'express';
 import router from './router';
 import swaggerUi from 'swagger-ui-express';
+import morgan from 'morgan';
 import swaggerspec, {swaggerUiOptions} from './config/swagger';
 import cors, { CorsOptions } from 'cors';
 // import colors from 'colors';
@@ -47,6 +48,8 @@ server.use(cors(corsOptions));
 // dbConnect();
  
 server.use(express.json());
+
+server.use(morgan('dev'));
 server.use('/api/products', router);
  
 // server.get('/api', (req, res) => {
