@@ -1,5 +1,5 @@
-import { Link, useLoaderData } from "react-router-dom"
-import { getProducts } from "../services/ProductService"
+import { Link, useLoaderData, type ActionFunctionArgs } from "react-router-dom"
+import { getProducts, updateProductAvailability } from "../services/ProductService"
 import ProductDetails from "../components/ProductDetails"
 import { type Product } from "../types"
 
@@ -7,8 +7,15 @@ import { type Product } from "../types"
 // eslint-disable-next-line react-refresh/only-export-components
 export async function loader() {
     const products = await getProducts()
-
     return products
+}
+
+//El comentario de abajo quita el error de que no puedo exportar la función action, ya que no es un componente de React
+// eslint-disable-next-line react-refresh/only-export-components
+export async function action({request} : ActionFunctionArgs) {
+    const data = Object.fromEntries(await request.formData())
+    await updateProductAvailability(+data.id)
+    return {}
 }
 
 export default function Products() {
